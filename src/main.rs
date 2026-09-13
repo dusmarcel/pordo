@@ -2,6 +2,7 @@ use std::path::PathBuf;
 
 use anyhow::{Result, bail};
 use clap::{arg, command, value_parser};
+use lopdf::{self, Document};
 
 fn main() -> Result<()> {
     let matches = command!()
@@ -17,5 +18,9 @@ fn main() -> Result<()> {
         bail!("Input file is required");
     };
 
+    let doc = Document::load(file)?;
+
+    println!("File {} has {} pages", file.display(), doc.get_pages().len());
+    
     Ok(())
 }
